@@ -11,6 +11,7 @@ repository = "https://github.com/HKalbasi/cargo-libyear"
 anyhow = "1.0.83"
 cargo_metadata = "0.18.1"
 chrono = "0.4.38"
-crates_io_api = { version = "0.11.0", features = ["rustls"], default_features = false }
+clap = { version = "4.5", features = ["derive"] }
+crates_io_api = { version = "0.11.0", features = ["rustls"], default-features = false }
 prettytable = "0.10.0"
 tqdm = "0.7.0"
