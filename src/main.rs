@@ -107,7 +107,7 @@ fn main() {
 
     table.printstd();
 
-    println!("Your system is {total_libyears:.02} libyears behind")
+    println!("Your project is {total_libyears:.02} libyears behind")
 }
 
 struct DependencyInfo {
