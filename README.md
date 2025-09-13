@@ -12,7 +12,8 @@ cargo install cargo-libyear
 
 ## Example
 
-Basic usage (backwards compatible):
+Basic usage:
+
 ```
 $ cargo libyear
 +------------------------------+-------------------------------+-------------------------+-----------------+
@@ -33,6 +34,7 @@ Your system is 65.21 libyears behind
 ```
 
 Sort by libyears to see most outdated dependencies first:
+
 ```
 $ cargo libyear --sort libyear --top 10
 +------------------------------+-------------------------------+-------------------------+-----------------+
@@ -53,6 +55,7 @@ Your system is 65.21 libyears behind
 ```
 
 Show help with all available options:
+
 ```
 $ cargo libyear --help
 A simple measure of software dependency freshness
@@ -66,7 +69,7 @@ Options:
           Possible values:
           - alphabetical: Sort alphabetically by crate name (default)
           - libyear:      Sort by libyears behind (most outdated first)
-          
+
           [default: alphabetical]
 
       --top <TOP>
@@ -74,7 +77,7 @@ Options:
 
       --manifest-path <MANIFEST_PATH>
           Path to Cargo.toml file
-          
+
           [default: ./Cargo.toml]
 
   -h, --help
@@ -85,11 +88,13 @@ Options:
 ```
 
 Get the top 5 most outdated dependencies:
+
 ```
 $ cargo libyear --sort libyear --top 5
 ```
 
 Show all dependencies sorted alphabetically (default behavior):
+
 ```
 $ cargo libyear --sort alphabetical
 ```
