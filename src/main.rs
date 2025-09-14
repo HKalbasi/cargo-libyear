@@ -6,7 +6,7 @@ use clap::{Parser, ValueEnum};
 
 use chrono::{DateTime, Utc};
 use crates_io_api::SyncClient;
-use prettytable::{format, row, Table};
+use prettytable::{Table, format, row};
 
 #[derive(Parser)]
 #[clap(name = "cargo-libyear")]
@@ -16,11 +16,11 @@ struct Args {
     /// Sort dependencies by the specified criteria
     #[clap(long, value_enum, default_value_t = SortBy::Alphabetical)]
     sort: SortBy,
-    
+
     /// Show only the top N dependencies (when sorted by libyear, shows the most outdated)
     #[clap(long)]
     top: Option<usize>,
-    
+
     /// Path to Cargo.toml file
     #[clap(long, default_value = "./Cargo.toml")]
     manifest_path: String,
@@ -47,7 +47,6 @@ fn main() {
 
     // Collect all dependency information first
     let mut dependencies = Vec::new();
-    let mut total_libyears = 0.;
 
     println!("Processing {} packages", metadata.packages.len());
 
@@ -60,15 +59,13 @@ fn main() {
             .unwrap()
             .as_secs_f64()
             / 31_556_952.;
-        
+
         dependencies.push(DependencyInfo {
             name: k.name,
             current_version: k.current_version_number,
             latest_version: k.latest_version_number,
             libyears,
         });
-        
-        total_libyears += libyears;
     }
 
     // Sort dependencies based on the specified criteria
@@ -77,14 +74,22 @@ fn main() {
             dependencies.sort_by(|a, b| a.name.cmp(&b.name));
         }
         SortBy::Libyear => {
-            dependencies.sort_by(|a, b| b.libyears.partial_cmp(&a.libyears).unwrap_or(std::cmp::Ordering::Equal));
+            dependencies.sort_by(|a, b| {
+                b.libyears
+                    .partial_cmp(&a.libyears)
+                    .unwrap_or(std::cmp::Ordering::Equal)
+            });
         }
     }
+
+    let total_libyears = dependencies.iter().map(|x| x.libyears).sum::<f64>();
 
     // Apply top filter if specified
     if let Some(top_count) = args.top {
         dependencies.truncate(top_count);
     }
+
+    let selected_libyears = dependencies.iter().map(|x| x.libyears).sum::<f64>();
 
     // Create and populate the table
     let mut table = Table::new();
@@ -107,6 +112,9 @@ fn main() {
 
     table.printstd();
 
+    if (total_libyears - selected_libyears).abs() > 1e-6 {
+        println!("Selected dependencies are {selected_libyears:.02} libyears behind")
+    }
     println!("Your project is {total_libyears:.02} libyears behind")
 }
 
