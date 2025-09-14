@@ -30,7 +30,7 @@ $ cargo libyear
 | bitflags                     | 1.3.2                         | 2.5.0                   | 2.59            |
 | bitflags                     | 2.4.2                         | 2.5.0                   | 0.17            |
 # ... many more lines ...
-Your system is 65.21 libyears behind
+Your project is 65.21 libyears behind
 ```
 
 Sort by libyears to see most outdated dependencies first:
@@ -51,7 +51,7 @@ $ cargo libyear --sort libyear --top 10
 | inotify                      | 0.9.6                         | 0.10.2                  | 1.73            |
 | perf-event                   | 0.4.7                         | 0.4.8                   | 1.53            |
 +------------------------------+-------------------------------+-------------------------+-----------------+
-Your system is 65.21 libyears behind
+Your project is 65.21 libyears behind
 ```
 
 Show help with all available options:
